@@ -30,6 +30,14 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     right: 30,
     bottom: 30
+  },
+  detectedLable: {
+    flex: 0.4,
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  detectedLableText: {
+    fontSize: 18
   }
 })
 

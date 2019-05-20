@@ -6,7 +6,7 @@ import styles from './styles'
 import SettingsModal from '../../modals/Settings'
 import { CanvasContext } from '../../context/CanvasContext'
 
-const Canvas = props => (
+const Canvas = ({ detectLabel, detectedLable, resetLabel }) => (
   <CanvasContext.Consumer>
     {({ canvasState, canvasRef, toggleSettingsModal }) => (
       <View style={styles.canvasContainer}>
@@ -17,6 +17,7 @@ const Canvas = props => (
             style={styles.button}
             onPress={() => {
               canvasRef.clear()
+              resetLabel()
             }}
           >
             <Text style={styles.buttonText}>Clear</Text>
@@ -33,8 +34,8 @@ const Canvas = props => (
                 false,
                 true,
                 (err, data) => {
-                  console.log(err)
-                  console.log(data)
+                  if (err) console.log(err)
+                  else detectLabel(data)
                 }
               )
             }}
@@ -58,6 +59,11 @@ const Canvas = props => (
           strokeColor={canvasState.strokeColor}
           strokeWidth={canvasState.strokeWidth}
         />
+        <View style={styles.detectedLable}>
+          <Text style={styles.detectedLableText}>
+            I think it is a {detectedLable ? detectedLable : '...'}
+          </Text>
+        </View>
         <TouchableHighlight
           activeOpacity={0.8}
           style={styles.floatingIcon}
