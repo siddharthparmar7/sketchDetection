@@ -1,6 +1,6 @@
 import React from 'react'
 import { Text, View, TouchableHighlight } from 'react-native'
-import { SketchCanvas, clear } from '@terrylinla/react-native-sketch-canvas'
+import { SketchCanvas } from '@terrylinla/react-native-sketch-canvas'
 import Icon from 'react-native-vector-icons/MaterialIcons'
 import styles from './styles'
 import SettingsModal from '../../modals/Settings'
@@ -26,7 +26,17 @@ const Canvas = props => (
             underlayColor="#ffff6b"
             style={styles.button}
             onPress={() => {
-              // canvasRef.undo()
+              canvasRef.getBase64(
+                'jpg',
+                true,
+                true,
+                false,
+                true,
+                (err, data) => {
+                  console.log(err)
+                  console.log(data)
+                }
+              )
             }}
           >
             <Text style={styles.buttonText}>Save</Text>

@@ -6,7 +6,7 @@ export default class CanvasWrapper extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      strokeColor: 'red',
+      strokeColor: 'black',
       strokeWidth: 7,
       showSettingsModal: false
     }
