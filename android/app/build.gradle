@@ -138,7 +138,6 @@ android {
 }
 
 dependencies {
-    implementation project(':@react-native-community_slider')
     implementation project(':react-native-vector-icons')
     implementation project(':@terrylinla_react-native-sketch-canvas')
     implementation fileTree(dir: "libs", include: ["*.jar"])

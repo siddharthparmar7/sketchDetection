@@ -6,15 +6,22 @@ export default class CanvasComponent extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      label: ''
+      label: '',
+      error: null,
+      loading: false
     }
   }
 
   resetLabel = () => {
-    this.setState({ label: '' })
+    this.setState({ label: '', error: null, loading: false })
+  }
+
+  setError = error => {
+    this.setState({ error: error })
   }
 
   detectLabel = async base64String => {
+    this.setState({ loading: true })
     const reqBody = {
       requests: [
         {
@@ -30,31 +37,41 @@ export default class CanvasComponent extends Component {
         }
       ]
     }
-    const res = await fetch(
-      `https://vision.googleapis.com/v1/images:annotate?key=${API_KEY}`,
-      {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(reqBody)
-      }
-    )
-
-    const data = await res.json()
-    data.responses.map(res =>
-      res.labelAnnotations.map(label => {
-        this.setState({ label: label.description })
+    try {
+      const res = await fetch(
+        `https://vision.googleapis.com/v1/images:annotate?key=${API_KEY}`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(reqBody)
+        }
+      )
+      const data = await res.json()
+      data.responses.map(res => {
+        res.labelAnnotations.map(label => {
+          this.setState({
+            loading: false,
+            label: label.description,
+            error: null
+          })
+        })
       })
-    )
+    } catch (error) {
+      this.setState({ loading: false, error })
+    }
   }
 
   render() {
     return (
       <Canvas
         detectLabel={this.detectLabel}
+        loading={this.state.loading}
+        error={this.state.error}
+        setError={this.setError}
         resetLabel={this.resetLabel}
-        detectedLable={this.state.label}
+        detectedLabel={this.state.label}
       />
     )
   }
