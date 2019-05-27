@@ -3,11 +3,17 @@ import { Modal, Text, TouchableHighlight, View } from 'react-native'
 import { CanvasContext } from '../../context/CanvasContext'
 import colors from './colorList'
 import styles from './styles'
-import Icon from 'react-native-vector-icons/MaterialIcons'
+import AppText from '../../components/AppText'
+import Slider from '@react-native-community/slider'
 
 const SettingsModal = props => (
   <CanvasContext.Consumer>
-    {({ toggleSettingsModal, changeStrokeColor, changeStrokeWidth }) => (
+    {({
+      toggleSettingsModal,
+      changeStrokeColor,
+      changeStrokeWidth,
+      canvasState
+    }) => (
       <Modal animationType="slide" transparent={false}>
         <View style={styles.modalContent}>
           <TouchableHighlight
@@ -17,6 +23,7 @@ const SettingsModal = props => (
           >
             <Text style={styles.closeX}>X</Text>
           </TouchableHighlight>
+          <AppText style={styles.settingsTitle}>Pick a color: </AppText>
           <View style={styles.boxWrapper}>
             {colors.map((color, index) => (
               <TouchableHighlight
@@ -30,19 +37,15 @@ const SettingsModal = props => (
               </TouchableHighlight>
             ))}
           </View>
+          <AppText style={styles.settingsTitle}>Pick a stroke width: </AppText>
           <View style={styles.strokeWrapper}>
-            {[7, 9, 16, 18, 20, 25, 30, 35, 40, 50].map(
-              (strokeWidth, index) => (
-                <TouchableHighlight
-                  key={index}
-                  underlayColor="white"
-                  activeOpacity={0.8}
-                  onPress={() => changeStrokeWidth(strokeWidth)}
-                >
-                  <Icon size={strokeWidth} name="lens" />
-                </TouchableHighlight>
-              )
-            )}
+            <Slider
+              style={styles.slider}
+              value={canvasState.strokeWidth}
+              minimumValue={5}
+              maximumValue={50}
+              onSlidingComplete={value => changeStrokeWidth(value)}
+            />
           </View>
         </View>
       </Modal>

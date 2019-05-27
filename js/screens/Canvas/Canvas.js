@@ -8,8 +8,7 @@ import { CanvasContext } from '../../context/CanvasContext'
 import AppText from '../../components/AppText'
 
 const decideConstantOrVowel = word => {
-  console.log(word)
-  return ['a', 'e', 'i', 'o', 'u'].includes(word[0]) ? 'an' : 'a'
+  return ['A', 'E', 'I', 'O', 'U'].includes(word[0]) ? 'an' : 'a'
 }
 
 const Canvas = ({
@@ -90,7 +89,7 @@ const Canvas = ({
               ? 'There was an error. Try again.'
               : loading
               ? '...'
-              : `I think it is ${decideConstantOrVowel(detectedLabel)}  ${
+              : `I think it is ${decideConstantOrVowel(detectedLabel)} ${
                   detectedLabel ? detectedLabel : '...'
                 }`}
           </AppText>

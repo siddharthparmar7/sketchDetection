@@ -4,10 +4,11 @@ export default StyleSheet.create({
   modalContent: {
     flex: 1,
     marginTop: 50,
-    marginLeft: 20
+    marginLeft: 20,
+    marginRight: 20
   },
   boxWrapper: {
-    marginTop: 20,
+    marginTop: 10,
     flexDirection: 'row',
     flexWrap: 'wrap'
   },
@@ -20,10 +21,12 @@ export default StyleSheet.create({
   closeX: {
     fontSize: 30
   },
-  strokeWrapper: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    alignItems: 'flex-end',
-    justifyContent: 'space-between'
+  settingsTitle: {
+    marginTop: 30
+  },
+  slider: {
+    width: '100%',
+    height: 40,
+    marginTop: 10
   }
 })

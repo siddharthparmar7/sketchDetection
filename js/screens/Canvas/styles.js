@@ -32,9 +32,9 @@ const styles = StyleSheet.create({
     bottom: 30
   },
   detectedLable: {
-    flex: 0.4,
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
+    marginBottom: 40
   },
   detectedLableText: {
     fontSize: 18
