@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import Canvas from './Canvas'
 import { API_KEY } from 'react-native-dotenv'
+import ScoreModal from '../../modals/score'
 
 export default class CanvasComponent extends Component {
   constructor(props) {
@@ -8,8 +9,24 @@ export default class CanvasComponent extends Component {
     this.state = {
       label: '',
       error: null,
-      loading: false
+      loading: false,
+      scoreModalOpen: false
     }
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (prevState.label !== this.state.label) {
+      console.log('here')
+      if (this.state.label === 'Face') {
+        setTimeout(() => {
+          this.setState({ scoreModalOpen: !this.state.scoreModalOpen })
+        }, 800)
+      }
+    }
+  }
+
+  toggleScoreModal = () => {
+    this.setState({ scoreModalOpen: !this.state.scoreModalOpen })
   }
 
   resetLabel = () => {
@@ -64,7 +81,12 @@ export default class CanvasComponent extends Component {
   }
 
   render() {
-    return (
+    return this.state.scoreModalOpen ? (
+      <ScoreModal
+        toggleScoreModal={this.toggleScoreModal}
+        resetLabel={this.resetLabel}
+      />
+    ) : (
       <Canvas
         detectLabel={this.detectLabel}
         loading={this.state.loading}
