@@ -1,5 +1,6 @@
 import React, { Component, createContext } from 'react';
 import { ActivityIndicator } from 'react-native';
+import { API_KEY } from 'react-native-dotenv';
 import gameLevels from '../../assets/levels/';
 
 const GameContext = createContext();
@@ -11,7 +12,8 @@ class GameContextProvider extends Component {
       currentLevel: null,
       detectedLabel: '',
       error: null,
-      loading: false
+      loading: false,
+      scoreModalOpen: false
     };
   }
 
@@ -19,6 +21,23 @@ class GameContextProvider extends Component {
     const currentLevel = gameLevels[0];
     this.setState({ currentLevel });
   }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (prevState.detectedLabel !== this.state.detectedLabel) {
+      if (
+        this.state.detectedLabel.toLowerCase() ===
+        this.state.currentLevel.draw.toLowerCase()
+      ) {
+        setTimeout(() => {
+          this.setState({ scoreModalOpen: !this.state.scoreModalOpen });
+        }, 800);
+      }
+    }
+  }
+
+  toggleScoreModal = () => {
+    this.setState({ scoreModalOpen: !this.state.scoreModalOpen });
+  };
 
   resetLabel = () => {
     this.setState({ detectedLabel: '', error: null, loading: false });
@@ -28,17 +47,18 @@ class GameContextProvider extends Component {
     this.setState({ error: error });
   };
 
-  updateCurrentLevel = () => {
-    const currentLevelIndex = gameLevels.findIndex(this.state.currentLevel);
+  goToNextLevel = () => {
+    const currentLevelIndex = gameLevels.findIndex(
+      () => this.state.currentLevel
+    );
     if (currentLevelIndex !== -1) {
       this.setState({ currentLevel: gameLevels[currentLevelIndex + 1] });
     }
   };
 
   checkScore = detectedLabel => {
-    console.log(detectedLabel);
     return this.state.currentLevel.draw.toLowerCase() ===
-      detectedLabeltoLowerCase()
+      detectedLabel.toLowerCase()
       ? true
       : false;
   };
@@ -87,18 +107,16 @@ class GameContextProvider extends Component {
   };
 
   render() {
-    console.log(this.state);
     return this.state.currentLevel ? (
       <GameContext.Provider
         value={{
-          currentLevel: this.state.currentLevel,
-          detectedLabel: this.state.detectedLabel,
-          loading: this.state.loading,
-          error: this.state.error,
-          updateCurrentLevel: this.updateCurrentLevel,
+          ...this.state,
+          goToNextLevel: this.goToNextLevel,
           checkScore: this.checkScore,
           detectLabel: this.detectLabel,
-          resetLabel: this.resetLabel
+          resetLabel: this.resetLabel,
+          scoreModalOpen: this.state.scoreModalOpen,
+          toggleScoreModal: this.toggleScoreModal
         }}
       >
         {this.props.children}

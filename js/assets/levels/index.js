@@ -1,7 +1,7 @@
 export default [
   {
     level: 1,
-    draw: 'circle',
+    draw: 'rectangle',
     points: 10
   },
   {
