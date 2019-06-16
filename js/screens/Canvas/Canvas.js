@@ -1,22 +1,22 @@
-import React from 'react'
-import { View, TouchableOpacity } from 'react-native'
-import { SketchCanvas } from '@terrylinla/react-native-sketch-canvas'
-import Icon from 'react-native-vector-icons/MaterialIcons'
-import styles from './styles'
-import SettingsModal from '../../modals/Settings'
-import { CanvasContext } from '../../context/CanvasContext'
-import AppText from '../../components/AppText'
-import theme from '../../config/theme'
+import React from 'react';
+import { View, TouchableOpacity } from 'react-native';
+import { SketchCanvas } from '@terrylinla/react-native-sketch-canvas';
+import Icon from 'react-native-vector-icons/MaterialIcons';
+import styles from './styles';
+import SettingsModal from '../../modals/Settings';
+import { CanvasContext } from '../../context/CanvasContext';
+import AppText from '../../components/AppText';
+import theme from '../../config/theme';
 
 const decideConstantOrVowel = word => {
-  return ['A', 'E', 'I', 'O', 'U'].includes(word[0]) ? 'an' : 'a'
-}
+  return ['A', 'E', 'I', 'O', 'U'].includes(word[0]) ? 'an' : 'a';
+};
 
 const Canvas = ({
+  currentLevel,
   detectLabel,
   detectedLabel,
   resetLabel,
-  setError,
   error,
   loading
 }) => (
@@ -29,8 +29,8 @@ const Canvas = ({
               activeOpacity={0.8}
               style={styles.button}
               onPress={() => {
-                canvasRef.clear()
-                resetLabel()
+                canvasRef.clear();
+                resetLabel();
               }}
             >
               <AppText style={styles.topBarText}>Clear</AppText>
@@ -52,10 +52,10 @@ const Canvas = ({
                   false,
                   true,
                   (err, data) => {
-                    if (err) console.log(err)
-                    else detectLabel(data)
+                    if (err) console.log(err);
+                    else detectLabel(data);
                   }
-                )
+                );
               }}
             >
               <AppText style={styles.topBarText}>Save</AppText>
@@ -64,14 +64,14 @@ const Canvas = ({
               activeOpacity={0.8}
               style={styles.button}
               onPress={() => {
-                canvasRef.undo()
+                canvasRef.undo();
               }}
             >
               <AppText style={styles.topBarText}>Undo</AppText>
             </TouchableOpacity>
           </View>
           <View style={styles.drawTarget}>
-            <AppText>Draw: Face</AppText>
+            <AppText>Draw: {currentLevel.draw}</AppText>
           </View>
         </View>
         <SketchCanvas
@@ -92,8 +92,8 @@ const Canvas = ({
               ? 'There was an error. Try again.'
               : loading
               ? '...'
-              : `I think it is ${decideConstantOrVowel(detectedLabel)} ${
-                  detectedLabel ? detectedLabel : '...'
+              : `I think it is ${
+                  detectedLabel ? decideConstantOrVowel(detectedLabel) : '...'
                 }`}
           </AppText>
         </View>
@@ -108,6 +108,6 @@ const Canvas = ({
       </View>
     )}
   </CanvasContext.Consumer>
-)
+);
 
-export default Canvas
+export default Canvas;
