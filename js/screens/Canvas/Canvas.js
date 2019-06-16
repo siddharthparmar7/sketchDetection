@@ -93,7 +93,9 @@ const Canvas = ({
               : loading
               ? '...'
               : `I think it is ${
-                  detectedLabel ? decideConstantOrVowel(detectedLabel) : '...'
+                  detectedLabel
+                    ? decideConstantOrVowel(detectedLabel) + ' ' + detectedLabel
+                    : '...'
                 }`}
           </AppText>
         </View>
